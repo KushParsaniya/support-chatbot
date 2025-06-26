@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: support-chatbot
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/spring-ai-multiagent
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/support-chatbot
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+  neo4j:
+    uri: ${NEO4j_URI}
+    authentication:
+      username: ${NEO4J_USER}
+      password: ${NEO4J_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  ai:
+    vectorstore:
+      neo4j:
+        embedding-dimension: 768
+        initialize-schema: true
+
+openai:
+  base-url: https://api.groq.com/openai
+  api-key: ${GROQ_API_KEY}
+  model: llama-3.3-70b-versatile
+
+ollama:
+  base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+  chat-model: ${OLLAMA_CHAT_MODEL:gemma3:1b}
+  embedding-model: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text:latest}
+
+server:
+  port: 8081
