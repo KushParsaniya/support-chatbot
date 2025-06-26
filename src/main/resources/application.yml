@@ -5,7 +5,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/spring-ai-multiagent
+          issuer-uri: http://localhost:8080/realms/support-chatbot
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/support-chatbot
     username: ${POSTGRES_USER:postgres}

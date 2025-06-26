@@ -29,10 +29,9 @@ class EmbeddingService {
                 product name: %s,
                 product description: %s,
                 product price: %s,
-                available quantity: %s,
                 product sku: %s
                 """.formatted(productCreateRequest.name(), productCreateRequest.description(),
-                productCreateRequest.price(), productCreateRequest.quantity(), productCreateRequest.sku());
+                productCreateRequest.price(), productCreateRequest.sku());
         create(text, userId);
     }
 }
