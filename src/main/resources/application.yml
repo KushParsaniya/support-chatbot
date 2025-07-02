@@ -5,7 +5,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/support-chatbot
+          #          issuer-uri: http://localhost:8080/realms/support-chatbot
+          issuer-uri: https://login.microsoftonline.com/${TENANT_ID}/v2.0
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/support-chatbot
     username: ${POSTGRES_USER:postgres}
@@ -31,8 +32,18 @@ openai:
 
 ollama:
   base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
-  chat-model: ${OLLAMA_CHAT_MODEL:gemma3:1b}
+  chat-model: ${OLLAMA_CHAT_MODEL:gemma3:4b}
   embedding-model: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text:latest}
+
+azure:
+  ai:
+    base-url: ${AZURE_OPENAI_BASE_URL}
+    chat-model: ${AZURE_OPENAI_MODEL}
+    api-key: ${AZURE_OPENAI_KEY}
 
 server:
   port: 8081
+logging:
+  level:
+    'org.springframework.ai': DEBUG
+    'org.springframework.security': DEBUG

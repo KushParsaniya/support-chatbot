@@ -1,5 +1,9 @@
 package dev.kush.supportchatbot.config;
 
+import com.azure.ai.openai.OpenAIClientBuilder;
+import com.azure.core.credential.AzureKeyCredential;
+import org.springframework.ai.azure.openai.AzureOpenAiChatModel;
+import org.springframework.ai.azure.openai.AzureOpenAiChatOptions;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.ollama.OllamaChatModel;
@@ -18,10 +22,12 @@ public class ModelConfig {
 
     private final OpenAiProperty openAiProperty;
     private final OllamaProperty ollamaProperty;
+    private final AzureAiConfig azureAiConfig;
 
-    public ModelConfig(OpenAiProperty openAiProperty, OllamaProperty ollamaProperty) {
+    public ModelConfig(OpenAiProperty openAiProperty, OllamaProperty ollamaProperty, AzureAiConfig azureAiConfig) {
         this.openAiProperty = openAiProperty;
         this.ollamaProperty = ollamaProperty;
+        this.azureAiConfig = azureAiConfig;
     }
 
     @Bean(name = "opnAiChatModel")
@@ -51,6 +57,22 @@ public class ModelConfig {
         return OllamaChatModel.builder()
                 .ollamaApi(ollamaApi)
                 .defaultOptions(ollamaOptions)
+                .build();
+    }
+
+    @Bean(name = "azureChatModel")
+    ChatModel azureChatModel() {
+        var openAIClientBuilder = new OpenAIClientBuilder()
+                .credential(new AzureKeyCredential(azureAiConfig.getApiKey()))
+                .endpoint(azureAiConfig.getBaseUrl());
+
+        var openAIChatOptions = AzureOpenAiChatOptions.builder()
+                .deploymentName(azureAiConfig.getChatModel())
+                .build();
+
+        return AzureOpenAiChatModel.builder()
+                .openAIClientBuilder(openAIClientBuilder)
+                .defaultOptions(openAIChatOptions)
                 .build();
     }
 
